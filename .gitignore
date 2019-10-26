@@ -1,3 +1,9 @@
+#target folder
+target/
+
+#intelij idea
+.idea/
+
 # Compiled class file
 *.class
 
