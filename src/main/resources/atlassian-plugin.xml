@@ -15,7 +15,7 @@
     <resource type="i18n" name="i18n" location="grapeconnect"/>
 
     <servlet name="Grape Admin Servlet" class="com.grape.crowd.plugin.grapeconnect.GrapeAdminServlet" key="grape-admin-servlet">
-        <description>A servlet to add and list todos</description>
+        <description>A servlet to handle config update</description>
         <url-pattern>/grape-admin</url-pattern>
     </servlet>
 

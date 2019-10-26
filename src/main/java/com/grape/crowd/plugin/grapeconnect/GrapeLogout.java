@@ -1,37 +1,48 @@
 package com.grape.crowd.plugin.grapeconnect;
 
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.net.URL;
-import java.net.URLConnection;
+import org.apache.http.HttpResponse;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.ContentType;
+import org.apache.http.entity.StringEntity;
+import org.apache.http.impl.client.HttpClientBuilder;
+import org.apache.http.util.EntityUtils;
+
 import java.util.Date;
 
 public class GrapeLogout {
 
-    private static void postRequest(String url, String token, String param ) {
-        String charset = "UTF-8";
+    private static int postRequest(String url, String token, String jsonPayload ) {
+        int responseCode = -1;
         try {
-            URLConnection connection = new URL(url).openConnection();
-            connection.setDoOutput(true); // Triggers POST.
-            connection.setRequestProperty("Accept-Charset", charset);
-            connection.setRequestProperty("Content-Type", "application/json;charset=" + charset);
-            connection.setRequestProperty("Authorization", "Token " + token);
 
-            OutputStream output = connection.getOutputStream();
-            output.write(param.getBytes(charset));
-            InputStream response = connection.getInputStream();
-            System.out.println(new Date().toString() + "Grape Connect: " + connection.getOutputStream().toString() + " " + param.getBytes(charset));
-            System.out.println(new Date().toString() + "Grape Connect: " + response.toString());
-            output.close();
+            StringEntity entity = new StringEntity(jsonPayload, ContentType.APPLICATION_FORM_URLENCODED);
+            HttpClient httpClient = HttpClientBuilder.create().build();
+            HttpPost request = new HttpPost(url);
+
+            String charset = "UTF-8";
+
+            request.setHeader("Accept-Charset", charset);
+            request.setHeader("Content-Type", "application/json");
+            request.setHeader("Authorization", "Token " + token);
+            request.setEntity(entity);
+
+            HttpResponse response = httpClient.execute(request);
+            System.out.println(new Date().toString() + "Grape Connect response code: " + response.getStatusLine().getStatusCode());
+            String content = EntityUtils.toString(response.getEntity());
+            System.out.println(new Date().toString() + "Grape Connect response: " + content);
+            responseCode = response.getStatusLine().getStatusCode();
+
         } catch (Exception e) {
             e.printStackTrace();
         }
+        return responseCode;
     }
 
-    public static void logout(String url, String token, String crowdUsername)
+    public static int logout(String url, String token, String crowdUsername)
     {
         System.out.println(new Date().toString() + " Grape Connect: Logging out user " + crowdUsername);
         String jsonPayload = "{\"crowd.CrowdUser\":{\"username\":"+ crowdUsername +"}}";
-        postRequest(url, token, jsonPayload);
+        return postRequest(url, token, jsonPayload);
     }
 }
