@@ -1,0 +1,39 @@
+<atlassian-plugin key="${atlassian.plugin.key}" name="${project.name}" plugins-version="2">
+    <plugin-info>
+        <description>${project.description}</description>
+        <version>${project.version}</version>
+        <vendor name="${project.organization.name}" url="${project.organization.url}" />
+        <param name="plugin-icon">images/pluginIcon.png</param>
+        <param name="plugin-logo">images/pluginLogo.png</param>
+    </plugin-info>
+
+    <listener name="Credential Updated Listener" key="usercredentialupdatedlistener" class="com.grape.crowd.plugin.grapeconnect.GrapeEventListener">
+        <description>Will listen for user credential updated events.</description>
+    </listener>
+
+    <!-- add our i18n resource -->
+    <resource type="i18n" name="i18n" location="grapeconnect"/>
+
+    <servlet name="Grape Admin Servlet" class="com.grape.crowd.plugin.grapeconnect.GrapeAdminServlet" key="grape-admin-servlet">
+        <description>A servlet to add and list todos</description>
+        <url-pattern>/grape-admin</url-pattern>
+    </servlet>
+
+    <!-- add our web resources -->
+    <web-resource key="ChatgrapeConnect-resources" name="Chatgrape Connect Web Resources">
+        <dependency>com.atlassian.auiplugin:ajs</dependency>
+        
+        <resource type="download" name="grapeconnect.css" location="css/grapeconnect.css"/>
+        <resource type="download" name="grapeconnectadmin.js" location="js/grapeconnectadmin.js"/>
+        <resource type="download" name="images/" location="/images"/>
+
+        <context>${atlassian.plugin.key}</context>
+        <context>atl.general</context>
+    </web-resource>
+
+    <web-item key="grape.menu" name="GrapeConfig" section="administrationnav" weight="999">
+        <label key="grape.plugin.menu.title"/>
+        <link linkId="grapeMenu">/plugins/servlet/grape-admin</link>
+    </web-item>
+
+</atlassian-plugin>
