@@ -53,19 +53,25 @@ public class GrapeAdminServlet extends HttpServlet {
     @Override
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         //save config from post req
+        boolean showInvalidToken = false;
         PluginSettings pluginSettings = pluginSettingsFactory.createGlobalSettings();
         if (request.getParameter(CONFIG_URL) != null && request.getParameter(CONFIG_TOKEN) != null) {
             pluginSettings.put(PLUGIN_STORAGE_KEY + "." + CONFIG_URL, request.getParameter(CONFIG_URL));
             pluginSettings.put(PLUGIN_STORAGE_KEY + "." + CONFIG_TOKEN, request.getParameter(CONFIG_TOKEN));
 
             //test url & token
-            GrapeLogout.logout(request.getParameter(CONFIG_URL), request.getParameter(CONFIG_TOKEN), "NULL");
+            int responseCode = GrapeLogout.logout(request.getParameter(CONFIG_URL), request.getParameter(CONFIG_TOKEN), "NULL");
+            if(responseCode == 401) showInvalidToken = true;
         }
 
-        renderPage(request, response);
+        renderPage(request, response, showInvalidToken);
     }
 
     private void renderPage(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        renderPage(request, response, false);
+    }
+
+    private void renderPage(HttpServletRequest request, HttpServletResponse response, boolean showInvalidToken) throws IOException {
         UserKey userKey = userManager.getRemoteUserKey();
         if (userKey == null || !userManager.isSystemAdmin(userKey)) {
             redirectToLogin(request, response);
@@ -83,6 +89,7 @@ public class GrapeAdminServlet extends HttpServlet {
         Map<String, Object> context = Maps.newHashMap();
         context.put("input_url", url);
         context.put("input_token", token);
+        context.put("show_invalid_token", showInvalidToken);
 
         //render page
         response.setContentType("text/html;charset=utf-8");
