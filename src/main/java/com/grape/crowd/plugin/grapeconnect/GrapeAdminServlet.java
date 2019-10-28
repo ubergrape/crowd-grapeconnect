@@ -37,6 +37,8 @@ public class GrapeAdminServlet extends HttpServlet {
     @ComponentImport
     private final PluginSettingsFactory pluginSettingsFactory;
 
+    private GrapeLogout.LogoutResponse logoutResponse;
+
     @Inject
     public GrapeAdminServlet(UserManager userManager, LoginUriProvider loginUriProvider, TemplateRenderer renderer, PluginSettingsFactory pluginSettingsFactory) {
         this.userManager = userManager;
@@ -54,14 +56,15 @@ public class GrapeAdminServlet extends HttpServlet {
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         //save config from post req
         boolean showInvalidToken = false;
+
         PluginSettings pluginSettings = pluginSettingsFactory.createGlobalSettings();
         if (request.getParameter(CONFIG_URL) != null && request.getParameter(CONFIG_TOKEN) != null) {
             pluginSettings.put(PLUGIN_STORAGE_KEY + "." + CONFIG_URL, request.getParameter(CONFIG_URL));
             pluginSettings.put(PLUGIN_STORAGE_KEY + "." + CONFIG_TOKEN, request.getParameter(CONFIG_TOKEN));
 
             //test url & token
-            int responseCode = GrapeLogout.logout(request.getParameter(CONFIG_URL), request.getParameter(CONFIG_TOKEN), "NULL");
-            if(responseCode == 401) showInvalidToken = true;
+            logoutResponse = GrapeLogout.logout(request.getParameter(CONFIG_URL), request.getParameter(CONFIG_TOKEN), "NULL");
+            if(logoutResponse.responseCode == 401) showInvalidToken = true;
         }
 
         renderPage(request, response, showInvalidToken);
@@ -90,6 +93,9 @@ public class GrapeAdminServlet extends HttpServlet {
         context.put("input_url", url);
         context.put("input_token", token);
         context.put("show_invalid_token", showInvalidToken);
+
+        String debugOutput = logoutResponse != null ? "response code: " + logoutResponse.responseCode + "\nresponse:\n" + logoutResponse.responseContent : "";
+        context.put("debug_output", debugOutput);
 
         //render page
         response.setContentType("text/html;charset=utf-8");

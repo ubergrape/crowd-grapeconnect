@@ -5,12 +5,12 @@
 </head>
 <body>
 
-#if($show_invalid_token == true)
+#if($show_invalid_token)
 <br>
 <label>$i18n.getText("grape.plugin.admin.invalidtoken")</label>
 <br>
 #end
-<form id="admin2" class="aui" action="" method="post">
+<form id="admin" class="aui" action="" method="post">
     <div class="field-group">
         <label for="url">$i18n.getText("grape.plugin.admin.url.label")</label>
         <input type="text" id="url" name="url" class="text" value="$input_url">
@@ -24,6 +24,9 @@
     </div>
 </form>
 
+<br>
+<label>$debug_output</label>
+<br>
 
 </body>
 </html>

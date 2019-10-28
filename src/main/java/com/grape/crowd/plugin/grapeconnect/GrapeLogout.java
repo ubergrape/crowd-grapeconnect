@@ -12,8 +12,20 @@ import java.util.Date;
 
 public class GrapeLogout {
 
-    private static int postRequest(String url, String token, String jsonPayload ) {
+    public static class LogoutResponse {
+        public int responseCode;
+        public String responseContent;
+        public static LogoutResponse build(int code, String content) {
+            LogoutResponse logoutResponse = new LogoutResponse();
+            logoutResponse.responseCode = code;
+            logoutResponse.responseContent = content;
+            return logoutResponse;
+        }
+    }
+
+    private static LogoutResponse postRequest(String url, String token, String jsonPayload ) {
         int responseCode = -1;
+        String responseContent = "";
         try {
 
             StringEntity entity = new StringEntity(jsonPayload, ContentType.APPLICATION_FORM_URLENCODED);
@@ -30,16 +42,17 @@ public class GrapeLogout {
             HttpResponse response = httpClient.execute(request);
             System.out.println(new Date().toString() + "Grape Connect response code: " + response.getStatusLine().getStatusCode());
             String content = EntityUtils.toString(response.getEntity());
+            responseContent = content;
             System.out.println(new Date().toString() + "Grape Connect response: " + content);
             responseCode = response.getStatusLine().getStatusCode();
-
+            return LogoutResponse.build(responseCode, responseContent);
         } catch (Exception e) {
             e.printStackTrace();
+            return LogoutResponse.build(responseCode, e.toString());
         }
-        return responseCode;
     }
 
-    public static int logout(String url, String token, String crowdUsername)
+    public static LogoutResponse logout(String url, String token, String crowdUsername)
     {
         System.out.println(new Date().toString() + " Grape Connect: Logging out user " + crowdUsername);
         String jsonPayload = "{\"crowd.CrowdUser\":{\"username\":"+ crowdUsername +"}}";
