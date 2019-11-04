@@ -63,7 +63,7 @@ public class GrapeAdminServlet extends HttpServlet {
             pluginSettings.put(PLUGIN_STORAGE_KEY + "." + CONFIG_TOKEN, request.getParameter(CONFIG_TOKEN));
 
             //test url & token
-            logoutResponse = GrapeLogout.logout(request.getParameter(CONFIG_URL), request.getParameter(CONFIG_TOKEN), "NULL");
+            logoutResponse = GrapeLogout.logout(request.getParameter(CONFIG_URL), request.getParameter(CONFIG_TOKEN), "NULL_USER");
             if(logoutResponse.responseCode == 401) showInvalidToken = true;
         }
 

@@ -3,11 +3,14 @@ package com.grape.crowd.plugin.grapeconnect;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpPost;
+import org.apache.http.conn.ssl.*;
 import org.apache.http.entity.ContentType;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.HttpClientBuilder;
+import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
 
+import javax.net.ssl.SSLContext;
 import java.util.Date;
 
 public class GrapeLogout {
@@ -29,7 +32,12 @@ public class GrapeLogout {
         try {
 
             StringEntity entity = new StringEntity(jsonPayload, ContentType.APPLICATION_FORM_URLENCODED);
-            HttpClient httpClient = HttpClientBuilder.create().build();
+
+            TrustStrategy acceptingTrustStrategy = new TrustSelfSignedStrategy();
+            SSLContext sslContext = org.apache.http.ssl.SSLContexts.custom().loadTrustMaterial(null, acceptingTrustStrategy).build();
+            SSLConnectionSocketFactory csf = new SSLConnectionSocketFactory(sslContext, NoopHostnameVerifier.INSTANCE);
+
+            HttpClient httpClient = HttpClients.custom().setSSLSocketFactory(csf).build();
             HttpPost request = new HttpPost(url);
 
             String charset = "UTF-8";
@@ -55,7 +63,7 @@ public class GrapeLogout {
     public static LogoutResponse logout(String url, String token, String crowdUsername)
     {
         System.out.println(new Date().toString() + " Grape Connect: Logging out user " + crowdUsername);
-        String jsonPayload = "{\"crowd.CrowdUser\":{\"username\":"+ crowdUsername +"}}";
+        String jsonPayload = "{\"crowd.CrowdUser\":{\"username\":"+ "\"" + crowdUsername + "\"" +"}}";
         return postRequest(url, token, jsonPayload);
     }
 }
