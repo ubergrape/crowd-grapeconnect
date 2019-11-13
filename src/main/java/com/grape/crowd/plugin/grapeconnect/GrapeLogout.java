@@ -51,7 +51,7 @@ public class GrapeLogout {
             System.out.println(new Date().toString() + "Grape Connect response code: " + response.getStatusLine().getStatusCode());
             String content = EntityUtils.toString(response.getEntity());
             responseContent = content;
-            System.out.println(new Date().toString() + "Grape Connect response: " + content);
+            //System.out.println(new Date().toString() + "Grape Connect response: " + content);
             responseCode = response.getStatusLine().getStatusCode();
             return LogoutResponse.build(responseCode, responseContent);
         } catch (Exception e) {

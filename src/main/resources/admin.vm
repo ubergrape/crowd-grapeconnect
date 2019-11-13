@@ -5,11 +5,6 @@
 </head>
 <body>
 
-#if($show_invalid_token)
-<br>
-<label>$i18n.getText("grape.plugin.admin.invalidtoken")</label>
-<br>
-#end
 <form id="admin" class="aui" action="" method="post">
     <div class="field-group">
         <label for="url">$i18n.getText("grape.plugin.admin.url.label")</label>
@@ -23,6 +18,30 @@
         <input type="submit" id="saveconfig" value="$i18n.getText("grape.plugin.admin.save.label")" class="button">
     </div>
 </form>
+
+#if($show_config_ok)
+<br>
+<p style="text-align:center">$i18n.getText("grape.plugin.admin.config_ok")</p>
+<br>
+#end
+
+#if($show_invalid_token)
+<br>
+<p style="text-align:center">$i18n.getText("grape.plugin.admin.invalid_token")</p>
+<br>
+#end
+
+#if($show_redirection)
+<br>
+<p style="text-align:center">$i18n.getText("grape.plugin.admin.redirection")</p>
+<br>
+#end
+
+#if($show_error)
+<br>
+<p style="text-align:center">$i18n.getText("grape.plugin.admin.error")</p>
+<br>
+#end
 
 <br>
 <label>$debug_output</label>
