@@ -1,30 +1,34 @@
 # crowd-grapeconnect
 Plugin for connecting Grape with Atlassian Crowd.
 
-### Grapeconnect Installation guide:
+### GrapeConnect Installation guide:
 
-0. Log into your Crowd console as admin.
+1. Download GrapeConnect plugin jar from:
 
-1. Go to Manage Apps.
-![manage_apps](docs/image/01_manage_apps.png)
+https://staging.chatgrape.com/media/organizations/1/b6c2a570052d11eaaf030242c0a83002/grapeconnect-10.jar
 
-2. Click on Upload App.
-![02_upload_app](docs/image/02_upload_app.png)
+2. Log into your Crowd console as admin.
 
-3. Click on FromMyComputer -> ChooseFile.
-![03_uplad_from_computer](docs/image/03_uplad_from_computer.png)
+3. Go to Manage Apps.
+<br><img width=200px src="/docs/images/01_manage_apps.png" />
 
-4. In your crowd-grapeconnect folder find target/grapeconnect-1.0.jar and upload it.
-![04_pick_grape](docs/image/04_pick_grape.png)
+4. Click on Upload App.
+<br><img width=600px src="/docs/images/02_upload_app.png" />
 
-5. Refresh the page and see that it is there.
-![05_it_is_there](docs/image/05_it_is_there.png)
+5. Click on FromMyComputer -> ChooseFile.
+<br><img width=400px src="/docs/images/03_uplad_from_computer.png" />
 
-6. GrapeConnectConfig should show up. Click it.
-![06_it_is_there_02](docs/image/06_it_is_there_02.png)
+6. Find GrapeConnect plugin jar in your downloads folder and upload it.
+<br><img width=200px src="/docs/images/04_pick_grape.png" />
 
-7. Enter URL and Access Token provided to you. Click Save.
-![07_config](docs/image/07_config.png)
+7. Refresh the page and see that it is there.
+<br><img width=600px src="/docs/images/05_it_is_there.png" />
 
-8. You're done.
+8. GrapeConnectConfig should show up. Click it.
+<br><img width=200px src="/docs/images/06_it_is_there_02.png" />
+
+9. Enter URL and Access Token provided to you. Click Save.
+<br><img width=300px src="/docs/images/07_config.png" />
+
+10. You're done.
 
