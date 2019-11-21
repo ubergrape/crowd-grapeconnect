@@ -3,9 +3,7 @@ Plugin for connecting Grape with Atlassian Crowd.
 
 ### GrapeConnect Installation guide:
 
-1. Download GrapeConnect plugin jar from:
-
-https://staging.chatgrape.com/media/organizations/1/b6c2a570052d11eaaf030242c0a83002/grapeconnect-10.jar
+1. Download GrapeConnect plugin jar from the github releases page: https://github.com/ubergrape/crowd-grapeconnect/releases/latest/
 
 2. Log into your Crowd console as admin.
 
