@@ -25,8 +25,12 @@ Plugin for connecting Grape with Atlassian Crowd.
 8. GrapeConnectConfig should show up. Click it.
 <br><img width=200px src="/docs/images/06_it_is_there_02.png" />
 
-9. Enter URL and Access Token provided to you. Click Save.
-<br><img width=300px src="/docs/images/07_config.png" />
+9. Open the Crowd settings on your Grape Server as Grape admin.
 
-10. You're done.
+10. Click on the Eye icon to see the token and copy it.
+<br><img width=600px src="/docs/images/10_token.png" />
+
+11. Enter your Grape Server URL (e.g. https://chat.example.com) and the Access Token you just copied. Click Save.
+
+12. You're done.
 
